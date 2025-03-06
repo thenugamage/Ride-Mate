@@ -105,37 +105,35 @@ class WelcomeScreen extends StatelessWidget {
                 const Spacer(),
 
                 /// Get Started Button
-             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: SizedBox(
-                width: 250, // Set desired width
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black, // Button background color
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    side: const BorderSide(
-                      color: Color.fromARGB(255, 130, 119, 23), // Border color
-                      width: 2,           // Border width
-                    ),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "Get Started",
-                      style: TextStyle(
-                        color: Colors.white, // Text color
-                        fontSize: 16,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: SizedBox(
+                    width: 250, // Set desired width
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black, // Button background color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        side: const BorderSide(
+                          color: Color.fromARGB(255, 130, 119, 23), // Border color
+                          width: 2,           // Border width
+                        ),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          "Get Started",
+                          style: TextStyle(
+                            color: Colors.white, // Text color
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-
-
 
                 const SizedBox(height: 15),
 
@@ -151,7 +149,6 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
 
                 const SizedBox(height: 40),
               ],
