@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'selection.dart';
 
 void main() {
   runApp(const MyApp());
@@ -86,64 +87,49 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 30),
-
-                      /// Dots Indicator
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.circle, size: 10, color: Colors.black),
-                          SizedBox(width: 10),
-                          Icon(Icons.circle, size: 10, color: Colors.grey)
-                        ],
-                      ),
                     ],
                   ),
                 ),
 
                 const Spacer(),
 
-                /// Get Started Button
+
+                /// Get Started Button (Navigates to Selection Page)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: SizedBox(
-                    width: 250, // Set desired width
+                    width: 250,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SelectionScreen(),
+                          ),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black, // Button background color
+                        backgroundColor: Colors.black,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         side: const BorderSide(
-                          color: Color.fromARGB(255, 130, 119, 23), // Border color
-                          width: 2,           // Border width
+
+                          color: Color.fromARGB(255, 130, 119, 23),
+                          width: 2,
                         ),
                       ),
                       child: const Center(
                         child: Text(
                           "Get Started",
                           style: TextStyle(
-                            color: Colors.white, // Text color
+
+                            color: Colors.white,
                             fontSize: 16,
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 15),
-
-                /// Create Account Link
-                GestureDetector(
-                  onTap: () {},
-                  child: const Text(
-                    "Create an account",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color.fromARGB(255, 141, 141, 141), // Change to any color you prefer
-                      decoration: TextDecoration.none, // Remove underline
                     ),
                   ),
                 ),
@@ -156,4 +142,6 @@ class WelcomeScreen extends StatelessWidget {
       ),
     );
   }
-} 
+
+}
+
