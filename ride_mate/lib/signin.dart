@@ -56,6 +56,16 @@ class SignInScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                /// Back Button
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.black),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
                 const SizedBox(height: 20),
 
                 /// Sign In Text
