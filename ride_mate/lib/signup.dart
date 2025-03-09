@@ -1,27 +1,9 @@
 import 'package:flutter/material.dart';
-import 'signup.dart';
-import 'verification.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'signin.dart'; 
+import 'package:google_fonts/google_fonts.dart'; 
 
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const SignInScreen(),
-    );
-  }
-}
-
-class SignInScreen extends StatelessWidget {
-  const SignInScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +30,7 @@ class SignInScreen extends StatelessWidget {
             child: Opacity(
               opacity: 1.0,
               child: Image.asset(
-                'assets/gridpattern.png',
+                'assets/gridpattern.png', // Background Grid
                 fit: BoxFit.cover,
               ),
             ),
@@ -59,7 +41,9 @@ class SignInScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                //// Back Button
+                const SizedBox(height: 10),
+
+                /// Back Button
                 Align(
                   alignment: Alignment.topLeft,
                   child: IconButton(
@@ -69,46 +53,37 @@ class SignInScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                const SizedBox(height: 20),
 
-                /// Sign In Text
+                /// Sign Up Text
                 Text(
-                  "Sign In",
+                  "Sign Up",
                   style: GoogleFonts.carterOne( 
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 20),
-
-                /// App Logo
-                Image.asset(
-                  'assets/Logo1.png',
-                  height: 250,
-                ),
 
                 const SizedBox(height: 10),
 
-               
-                const SizedBox(height: 40),
+                /// App Logo
+                Image.asset(
+                  'assets/Logo1.png', 
+                  height: 250,
+                ),
 
-                /// Email & Password Fields
+                const SizedBox(height: 30),
+
+                /// Email Field
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     children: [
                       _buildTextField("Your Email"),
-                      const SizedBox(height: 15),
-                      _buildTextField("Password", obscureText: true),
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 20),
-
-               
-
-                const SizedBox(height: 15),
+                const SizedBox(height: 40),
 
                 /// Continue Button
                 Padding(
@@ -116,13 +91,7 @@ class SignInScreen extends StatelessWidget {
                   child: SizedBox(
                     width: 250,
                     child: ElevatedButton(
-                      onPressed: () {
-                        // Navigate to the Verification Page
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const VerificationScreen()),
-                        );
-                      },
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         shape: RoundedRectangleBorder(
@@ -145,9 +114,9 @@ class SignInScreen extends StatelessWidget {
                   ),
                 ),
 
-                  const SizedBox(height: 15),
+                const SizedBox(height: 20),
 
-              /// "Or continue with" text
+                /// "Or continue with" text
                 const Text(
                   "or continue with",
                   style: TextStyle(
@@ -189,23 +158,23 @@ class SignInScreen extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                /// New User? Create Account Link
+                /// Already Have an Account? Sign In Link
                 GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const SignUpScreen()),
-                      );
-                    },
-                    child: const Text(
-                      "New User? Create Account",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                      ),
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SignInScreen()),
+                    );
+                  },
+                  child: const Text(
+                    "Have Account? Sign In",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
                     ),
                   ),
+                ),
               ],
             ),
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
 import 'signin.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 class SelectionScreen extends StatelessWidget {
@@ -43,11 +43,11 @@ class SelectionScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                /// Back Button
+                //// Back Button
                 Align(
                   alignment: Alignment.topLeft,
                   child: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.black),
+                    icon: const Icon(Icons.arrow_back_ios),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -57,13 +57,11 @@ class SelectionScreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 /// Selection Title
-                const Text(
+                Text(
                   "Selection",
-                  style: TextStyle(
-                    fontSize: 40,
+                  style: GoogleFonts.carterOne( 
+                    fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'calibri',
-                    color: Colors.black,
                   ),
                 ),
 
@@ -102,7 +100,7 @@ class SelectionScreen extends StatelessWidget {
   /// Button Builder
   Widget _buildButton(String text, BuildContext context) {
     return SizedBox(
-      width: double.infinity,
+      width: 250,
       child: ElevatedButton(
         onPressed: () {
           // Navigate to the SignInScreen when button is pressed
