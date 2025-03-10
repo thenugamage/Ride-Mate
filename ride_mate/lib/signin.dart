@@ -197,14 +197,21 @@ class SignInScreen extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => const SignUpScreen()),
                       );
                     },
-                    child: const Text(
-                      "New User? Create Account",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
+                    child: const Text.rich(
+                  TextSpan(
+                    text: "New User? ",
+                    style: TextStyle(color: Color.fromARGB(255, 19, 90, 149), fontSize: 14),
+                    children: [
+                      TextSpan(
+                        text: "Create Account",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
+                    ],
+                  ),
+                ),
                   ),
               ],
             ),
