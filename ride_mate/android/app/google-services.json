@@ -12,7 +12,20 @@
           "package_name": "com.example.ride_mate"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "891035109434-vunh6ap1anbilllrasgla20lap2nq1v0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ride_mate",
+            "certificate_hash": "847a4c0aeba9e15e25299a45d69d8d6b21802329"
+          }
+        },
+        {
+          "client_id": "891035109434-548re84jadkhmn18vd1d1efe530pr0i1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB1QquuSywnfhC7F5arn0oyPsaL9RHuemY"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891035109434-548re84jadkhmn18vd1d1efe530pr0i1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
