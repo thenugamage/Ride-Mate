@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ride_mate/home.dart';
 import 'signup.dart';
-import 'verification.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -38,11 +38,11 @@ class _SignInScreenState extends State<SignInScreen> {
         password: _passwordController.text.trim(),
       );
       
-      // Authentication successful, navigate to verification screen
+      // Authentication successful, navigate to home screen
       if (mounted) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const VerificationScreen()),
+          MaterialPageRoute(builder: (context) => const HomePage()),
         );
       }
     } on FirebaseAuthException catch (e) {
@@ -110,7 +110,7 @@ class _SignInScreenState extends State<SignInScreen> {
       if (mounted) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const VerificationScreen()),
+          MaterialPageRoute(builder: (context) => const HomePage()),
         );
       }
     } on FirebaseAuthException catch (e) {
