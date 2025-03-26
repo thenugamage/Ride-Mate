@@ -79,13 +79,13 @@ class Paymentsuccess extends StatelessWidget {
                 Text(
                   "Your order has been placed successfully",
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.carterOne(
+                  style: GoogleFonts.inter(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
 
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
 
                 /// Description
                 Padding(
