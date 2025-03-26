@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'navigationabar.dart'; 
 import 'settings.dart';
+import 'paymentSuccess.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0; // Track current page index
+  final int _selectedIndex = 0; // Track current page index
   String userName = "User";
   String? userPhoto;
 
@@ -44,7 +45,7 @@ class _HomePageState extends State<HomePage> {
         nextScreen = const HomePage();
         break;
       case 2:
-        nextScreen = const HomePage();
+        nextScreen = const Paymentsuccess();
         break;
       case 3:
         nextScreen = const SettingsPage();
