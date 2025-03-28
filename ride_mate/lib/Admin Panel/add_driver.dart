@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Driver Management',
       theme: ThemeData(
-        primarySwatch: Colors.yellow, // Setting theme color to yellow
+        primarySwatch: Colors.yellow,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: DriverManagementPage(),
@@ -32,7 +32,6 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
     {"name": "Michael Johnson", "license": "LM1122334"},
   ];
 
-  // Function to add a new driver
   void _addDriver() {
     TextEditingController nameController = TextEditingController();
     TextEditingController licenseController = TextEditingController();
@@ -70,7 +69,7 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
                   setState(() {
                     drivers.add({"name": name, "license": license});
                   });
-                  Navigator.of(context).pop(); // Close dialog
+                  Navigator.of(context).pop();
                   _showDriverAddedConfirmation(name, license);
                 }
               },
@@ -78,7 +77,7 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
+                Navigator.of(context).pop();
               },
               child: Text('Cancel'),
             ),
@@ -88,7 +87,6 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
     );
   }
 
-  // Show confirmation pop-up after a driver is added
   void _showDriverAddedConfirmation(String name, String license) {
     showDialog(
       context: context,
@@ -99,7 +97,7 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
+                Navigator.of(context).pop();
               },
               child: Text('OK'),
             ),
@@ -109,14 +107,12 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
     );
   }
 
-  // Function to delete a driver
   void _deleteDriver(int index) {
     setState(() {
       drivers.removeAt(index);
     });
   }
 
-  // Function to edit driver details
   void _editDriver(int index) {
     TextEditingController nameController = TextEditingController(
       text: drivers[index]["name"],
@@ -163,7 +159,7 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
+                Navigator.of(context).pop();
               },
               child: Text('Cancel'),
             ),
@@ -173,7 +169,6 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
     );
   }
 
-  // Show confirmation pop-up after driver details are updated
   void _showDriverUpdatedConfirmation(String name, String license) {
     showDialog(
       context: context,
@@ -184,7 +179,7 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
+                Navigator.of(context).pop();
               },
               child: Text('OK'),
             ),
@@ -197,68 +192,108 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Driver Management',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.yellow, // App bar color
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: _addDriver,
-            tooltip: 'Add New Driver',
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Title/Subtitle for Driver Management
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Text(
-                'Manage and View All Drivers',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body: Stack(
+        children: [
+          // 🌈 Gradient Background
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.white, Color.fromARGB(255, 205, 174, 0)],
               ),
             ),
-
-            // Driver List
-            Expanded(
-              child: ListView.builder(
-                itemCount: drivers.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.all(10),
-                      leading: Icon(Icons.directions_bus, color: Colors.yellow),
-                      title: Text(drivers[index]["name"]!),
-                      subtitle: Text("License: ${drivers[index]["license"]}"),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.edit, color: Colors.blue),
-                            onPressed: () => _editDriver(index),
-                            tooltip: 'Edit Driver',
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red),
-                            onPressed: () => _deleteDriver(index),
-                            tooltip: 'Delete Driver',
-                          ),
+          ),
+          // Main content with SafeArea
+          SafeArea(
+            child: Column(
+              children: [
+                // 🧢 Custom AppBar with gradient background
+                AppBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  centerTitle: true,
+                  title: Text(
+                    'Driver Management',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  actions: [
+                    IconButton(
+                      icon: Icon(Icons.add, color: Colors.black),
+                      onPressed: _addDriver,
+                      tooltip: 'Add New Driver',
+                    ),
+                  ],
+                  flexibleSpace: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.white,
+                          Color.fromARGB(255, 205, 174, 0),
                         ],
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                ),
+
+                // Title/Subtitle
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    'Manage and View All Drivers',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+
+                // Driver List
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: drivers.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        margin: EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 16,
+                        ),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.all(10),
+                          leading: Icon(
+                            Icons.directions_bus,
+                            color: Colors.yellow,
+                          ),
+                          title: Text(drivers[index]["name"]!),
+                          subtitle: Text(
+                            "License: ${drivers[index]["license"]}",
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.edit, color: Colors.blue),
+                                onPressed: () => _editDriver(index),
+                                tooltip: 'Edit Driver',
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete, color: Colors.red),
+                                onPressed: () => _deleteDriver(index),
+                                tooltip: 'Delete Driver',
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
