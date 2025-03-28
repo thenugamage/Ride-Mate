@@ -46,18 +46,17 @@ class _NotificationsManagementPageState
     },
   ];
 
-  String selectedType = "All"; // Filter by notification type
+  String selectedType = "All";
   String searchQuery = "";
 
-  // Function to add a new notification (simulated for now)
   void _addNotification() {
+    TextEditingController titleController = TextEditingController();
+    TextEditingController messageController = TextEditingController();
+    TextEditingController typeController = TextEditingController();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        TextEditingController titleController = TextEditingController();
-        TextEditingController messageController = TextEditingController();
-        TextEditingController typeController = TextEditingController();
-
         return AlertDialog(
           title: Text('Add New Notification'),
           content: Column(
@@ -92,9 +91,7 @@ class _NotificationsManagementPageState
               child: Text('Add Notification'),
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text('Cancel'),
             ),
           ],
@@ -103,14 +100,12 @@ class _NotificationsManagementPageState
     );
   }
 
-  // Function to delete a notification
   void _deleteNotification(int index) {
     setState(() {
       notifications.removeAt(index);
     });
   }
 
-  // Function to edit notification details
   void _editNotification(int index) {
     TextEditingController titleController = TextEditingController(
       text: notifications[index]["title"],
@@ -159,9 +154,7 @@ class _NotificationsManagementPageState
               child: Text('Save Changes'),
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text('Cancel'),
             ),
           ],
@@ -170,11 +163,15 @@ class _NotificationsManagementPageState
     );
   }
 
-  // Get filtered notifications
   List<Map<String, String>> get filteredNotifications {
     return notifications.where((notification) {
-      bool matchesSearchQuery = notification["title"]!.contains(searchQuery) ||
-          notification["message"]!.contains(searchQuery);
+      bool matchesSearchQuery =
+          notification["title"]!.toLowerCase().contains(
+            searchQuery.toLowerCase(),
+          ) ||
+          notification["message"]!.toLowerCase().contains(
+            searchQuery.toLowerCase(),
+          );
       bool matchesType =
           selectedType == "All" || notification["type"] == selectedType;
       return matchesSearchQuery && matchesType;
@@ -184,121 +181,161 @@ class _NotificationsManagementPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Notifications Management',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.yellow, // App bar color
-        elevation: 4.0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add, color: Colors.black),
-            onPressed: _addNotification,
-            tooltip: 'Add New Notification',
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Search Bar
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Search Notifications',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
+      body: Stack(
+        children: [
+          // 🌈 Background gradient
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.white, Color.fromARGB(255, 205, 174, 0)],
               ),
-              onChanged: (query) {
-                setState(() {
-                  searchQuery = query;
-                });
-              },
             ),
-
-            SizedBox(height: 20),
-
-            // Filter by Notification Type
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ),
+          SafeArea(
+            child: Column(
               children: [
-                DropdownButton<String>(
-                  value: selectedType,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedType = newValue!;
-                    });
-                  },
-                  items: <String>[
-                    'All',
-                    'Booking',
-                    'Reminder',
-                    'Cancellation',
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
-
-            SizedBox(height: 20),
-
-            // Notification List
-            Expanded(
-              child: ListView.builder(
-                itemCount: filteredNotifications.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                // 🧢 Gradient AppBar
+                AppBar(
+                  title: Text(
+                    'Notifications Management',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
-                    elevation: 5,
-                    child: ListTile(
-                      contentPadding: EdgeInsets.all(15),
-                      leading: Icon(
-                        Icons.notifications,
-                        color: Colors.yellow,
-                        size: 40,
-                      ),
-                      title: Text(
-                        filteredNotifications[index]["title"]!,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Text(
-                        filteredNotifications[index]["message"]!,
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.edit, color: Colors.blue),
-                            onPressed: () => _editNotification(index),
-                            tooltip: 'Edit Notification',
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red),
-                            onPressed: () => _deleteNotification(index),
-                            tooltip: 'Delete Notification',
-                          ),
+                  ),
+                  centerTitle: true,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  actions: [
+                    IconButton(
+                      icon: Icon(Icons.add, color: Colors.black),
+                      onPressed: _addNotification,
+                      tooltip: 'Add New Notification',
+                    ),
+                  ],
+                  flexibleSpace: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.white,
+                          Color.fromARGB(255, 205, 174, 0),
                         ],
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                ),
+
+                // 🔍 Search
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 10,
+                  ),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Search Notifications',
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (query) {
+                      setState(() {
+                        searchQuery = query;
+                      });
+                    },
+                  ),
+                ),
+
+                // 🔽 Filter Dropdown
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    children: [
+                      Text('Filter by Type: '),
+                      SizedBox(width: 10),
+                      DropdownButton<String>(
+                        value: selectedType,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedType = newValue!;
+                          });
+                        },
+                        items:
+                            [
+                              'All',
+                              'Booking',
+                              'Reminder',
+                              'Cancellation',
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 10),
+
+                // 📋 Notification List
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: filteredNotifications.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 5,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.all(15),
+                          leading: Icon(
+                            Icons.notifications,
+                            color: Colors.yellow,
+                            size: 40,
+                          ),
+                          title: Text(
+                            filteredNotifications[index]["title"]!,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            filteredNotifications[index]["message"]!,
+                            style: TextStyle(fontSize: 14),
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.edit, color: Colors.blue),
+                                onPressed: () => _editNotification(index),
+                                tooltip: 'Edit',
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete, color: Colors.red),
+                                onPressed: () => _deleteNotification(index),
+                                tooltip: 'Delete',
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
