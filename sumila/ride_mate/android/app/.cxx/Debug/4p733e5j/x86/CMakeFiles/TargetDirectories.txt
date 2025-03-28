@@ -1,0 +1,2 @@
+C:/Ride-Mate/ride_mate/android/app/.cxx/Debug/4p733e5j/x86/CMakeFiles/edit_cache.dir
+C:/Ride-Mate/ride_mate/android/app/.cxx/Debug/4p733e5j/x86/CMakeFiles/rebuild_cache.dir
