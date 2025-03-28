@@ -27,12 +27,26 @@ class BookingManagementPage extends StatefulWidget {
 
 class _BookingManagementPageState extends State<BookingManagementPage> {
   List<Map<String, String>> bookings = [
-    {"passenger": "John Doe", "busNumber": "123", "seat": "A1", "status": "Confirmed"},
-    {"passenger": "Jane Smith", "busNumber": "456", "seat": "B5", "status": "Pending"},
-    {"passenger": "Michael Johnson", "busNumber": "789", "seat": "C3", "status": "Canceled"},
+    {
+      "passenger": "John Doe",
+      "busNumber": "123",
+      "seat": "A1",
+      "status": "Confirmed",
+    },
+    {
+      "passenger": "Jane Smith",
+      "busNumber": "456",
+      "seat": "B5",
+      "status": "Pending",
+    },
+    {
+      "passenger": "Michael Johnson",
+      "busNumber": "789",
+      "seat": "C3",
+      "status": "Canceled",
+    },
   ];
 
-  // Function to add a new booking
   void _addBooking() {
     TextEditingController passengerController = TextEditingController();
     TextEditingController busNumberController = TextEditingController();
@@ -45,7 +59,6 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
         return AlertDialog(
           title: Text('Add New Booking'),
           content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
@@ -69,32 +82,35 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                String passenger = passengerController.text.trim();
-                String busNumber = busNumberController.text.trim();
-                String seat = seatController.text.trim();
-                String status = statusController.text.trim();
-
-                if (passenger.isEmpty || busNumber.isEmpty || seat.isEmpty || status.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please fill in all fields')));
+                if (passengerController.text.isEmpty ||
+                    busNumberController.text.isEmpty ||
+                    seatController.text.isEmpty ||
+                    statusController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Please fill in all fields')),
+                  );
                 } else {
                   setState(() {
                     bookings.add({
-                      "passenger": passenger,
-                      "busNumber": busNumber,
-                      "seat": seat,
-                      "status": status,
+                      "passenger": passengerController.text.trim(),
+                      "busNumber": busNumberController.text.trim(),
+                      "seat": seatController.text.trim(),
+                      "status": statusController.text.trim(),
                     });
                   });
-                  Navigator.of(context).pop(); // Close the dialog
-                  _showBookingAddedConfirmation(passenger, busNumber, seat, status);
+                  Navigator.of(context).pop();
+                  _showBookingAddedConfirmation(
+                    passengerController.text,
+                    busNumberController.text,
+                    seatController.text,
+                    statusController.text,
+                  );
                 }
               },
               child: Text('Add Booking'),
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text('Cancel'),
             ),
           ],
@@ -103,19 +119,23 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
     );
   }
 
-  // Show confirmation pop-up after a booking is added
-  void _showBookingAddedConfirmation(String passenger, String busNumber, String seat, String status) {
+  void _showBookingAddedConfirmation(
+    String passenger,
+    String busNumber,
+    String seat,
+    String status,
+  ) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Booking Added'),
-          content: Text('Booking for $passenger on bus $busNumber, seat $seat with status $status has been added.'),
+          content: Text(
+            'Booking for $passenger on bus $busNumber, seat $seat with status $status has been added.',
+          ),
           actions: [
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text('OK'),
             ),
           ],
@@ -124,14 +144,12 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
     );
   }
 
-  // Function to delete a booking
   void _deleteBooking(int index) {
     setState(() {
       bookings.removeAt(index);
     });
   }
 
-  // Function to view booking details (popup dialog)
   void _viewBooking(int index) {
     showDialog(
       context: context,
@@ -140,19 +158,16 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
           title: Text('Booking Details'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Passenger Name: ${bookings[index]["passenger"]}'),
+              Text('Passenger: ${bookings[index]["passenger"]}'),
               Text('Bus Number: ${bookings[index]["busNumber"]}'),
-              Text('Seat Number: ${bookings[index]["seat"]}'),
-              Text('Booking Status: ${bookings[index]["status"]}'),
+              Text('Seat: ${bookings[index]["seat"]}'),
+              Text('Status: ${bookings[index]["status"]}'),
             ],
           ),
           actions: [
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text('Close'),
             ),
           ],
@@ -161,7 +176,6 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
     );
   }
 
-  // Function to edit booking details
   void _editBooking(int index) {
     TextEditingController passengerController = TextEditingController(
       text: bookings[index]["passenger"],
@@ -180,8 +194,9 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Edit Booking Details'),
+          title: Text('Edit Booking'),
           content: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: passengerController,
@@ -206,21 +221,24 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
               onPressed: () {
                 setState(() {
                   bookings[index] = {
-                    "passenger": passengerController.text,
-                    "busNumber": busNumberController.text,
-                    "seat": seatController.text,
-                    "status": statusController.text,
+                    "passenger": passengerController.text.trim(),
+                    "busNumber": busNumberController.text.trim(),
+                    "seat": seatController.text.trim(),
+                    "status": statusController.text.trim(),
                   };
                 });
                 Navigator.of(context).pop();
-                _showBookingUpdatedConfirmation(bookings[index]["passenger"]!, bookings[index]["busNumber"]!, bookings[index]["seat"]!, bookings[index]["status"]!);
+                _showBookingUpdatedConfirmation(
+                  bookings[index]["passenger"]!,
+                  bookings[index]["busNumber"]!,
+                  bookings[index]["seat"]!,
+                  bookings[index]["status"]!,
+                );
               },
-              child: Text('Save Changes'),
+              child: Text('Save'),
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text('Cancel'),
             ),
           ],
@@ -229,19 +247,23 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
     );
   }
 
-  // Show confirmation pop-up after booking details are updated
-  void _showBookingUpdatedConfirmation(String passenger, String busNumber, String seat, String status) {
+  void _showBookingUpdatedConfirmation(
+    String passenger,
+    String busNumber,
+    String seat,
+    String status,
+  ) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Booking Updated'),
-          content: Text('Booking for $passenger on bus $busNumber, seat $seat with status $status has been updated.'),
+          content: Text(
+            'Booking for $passenger on bus $busNumber, seat $seat with status $status has been updated.',
+          ),
           actions: [
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: Text('OK'),
             ),
           ],
@@ -253,95 +275,129 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Booking Management',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.yellow, // App bar color
-        elevation: 4.0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add, color: Colors.black),
-            onPressed: _addBooking,
-            tooltip: 'Add New Booking',
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Title/Subtitle for Booking Management
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Text(
-                'Manage and View All Bookings',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+      body: Stack(
+        children: [
+          // 🌈 Gradient background
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.white, Color.fromARGB(255, 205, 174, 0)],
               ),
             ),
+          ),
 
-            // Booking List
-            Expanded(
-              child: ListView.builder(
-                itemCount: bookings.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+          // 👇 Foreground content
+          SafeArea(
+            child: Column(
+              children: [
+                // 🧢 Gradient AppBar
+                AppBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  centerTitle: true,
+                  title: Text(
+                    'Booking Management',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
-                    elevation: 5,
-                    child: ListTile(
-                      contentPadding: EdgeInsets.all(15),
-                      leading: Icon(
-                        Icons.book_online,
-                        color: Colors.yellow,
-                        size: 40,
-                      ),
-                      title: Text(
-                        bookings[index]["passenger"]!,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Text(
-                        "Bus: ${bookings[index]["busNumber"]}\nSeat: ${bookings[index]["seat"]}\nStatus: ${bookings[index]["status"]}",
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.visibility, color: Colors.blue),
-                            onPressed: () => _viewBooking(index),
-                            tooltip: 'View Booking',
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.edit, color: Colors.blue),
-                            onPressed: () => _editBooking(index),
-                            tooltip: 'Edit Booking',
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red),
-                            onPressed: () => _deleteBooking(index),
-                            tooltip: 'Delete Booking',
-                          ),
+                  ),
+                  actions: [
+                    IconButton(
+                      icon: Icon(Icons.add, color: Colors.black),
+                      onPressed: _addBooking,
+                      tooltip: 'Add Booking',
+                    ),
+                  ],
+                  flexibleSpace: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.white,
+                          Color.fromARGB(255, 205, 174, 0),
                         ],
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    'Manage and View All Bookings',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: bookings.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 5,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.all(15),
+                          leading: Icon(
+                            Icons.book_online,
+                            color: Colors.yellow,
+                            size: 40,
+                          ),
+                          title: Text(
+                            bookings[index]["passenger"]!,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            "Bus: ${bookings[index]["busNumber"]}\nSeat: ${bookings[index]["seat"]}\nStatus: ${bookings[index]["status"]}",
+                            style: TextStyle(fontSize: 14),
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.visibility,
+                                  color: Colors.blue,
+                                ),
+                                onPressed: () => _viewBooking(index),
+                                tooltip: 'View',
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.edit, color: Colors.blue),
+                                onPressed: () => _editBooking(index),
+                                tooltip: 'Edit',
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete, color: Colors.red),
+                                onPressed: () => _deleteBooking(index),
+                                tooltip: 'Delete',
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
