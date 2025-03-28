@@ -36,6 +36,7 @@ class _BusRouteManagementPageState extends State<BusRouteManagementPage> {
     {"busNumber": "789", "route": "Suburb to Main Station", "capacity": "30"},
   ];
 
+  
   void _addBus() {
     TextEditingController busNumberController = TextEditingController();
     TextEditingController routeController = TextEditingController();
@@ -165,6 +166,7 @@ class _BusRouteManagementPageState extends State<BusRouteManagementPage> {
     return Scaffold(
       body: Stack(
         children: [
+         
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -175,9 +177,11 @@ class _BusRouteManagementPageState extends State<BusRouteManagementPage> {
             ),
           ),
 
+          
           SafeArea(
             child: Column(
               children: [
+                // 🧢 Gradient AppBar
                 AppBar(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
@@ -210,6 +214,7 @@ class _BusRouteManagementPageState extends State<BusRouteManagementPage> {
                   ),
                 ),
 
+                // 🏷 Title
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
