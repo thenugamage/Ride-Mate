@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">891035109434-548re84jadkhmn18vd1d1efe530pr0i1.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">891035109434</string>
+    <string name="google_api_key" translatable="false">AIzaSyB1QquuSywnfhC7F5arn0oyPsaL9RHuemY</string>
+    <string name="google_app_id" translatable="false">1:891035109434:android:8e3e06031c240f060a4d03</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB1QquuSywnfhC7F5arn0oyPsaL9RHuemY</string>
+    <string name="google_storage_bucket" translatable="false">ride-mate-41ec6.firebasestorage.app</string>
+    <string name="project_id" translatable="false">ride-mate-41ec6</string>
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">?android:colorBackground</item>
+    </style>
+</resources>
