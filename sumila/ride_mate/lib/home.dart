@@ -301,8 +301,9 @@ class _HomePageState extends State<HomePage> {
                               }).toList(),
                               onChanged: (String? newValue) {
                                 setState(() {
-                                  if (newValue != null)
+                                  if (newValue != null) {
                                     _selectedTime = newValue;
+                                  }
                                 });
                               },
                             ),

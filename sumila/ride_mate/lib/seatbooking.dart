@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'bookingdetails.dart'; // Import the BookingDetailsPage
 import 'navigationbar.dart'; // Import the CustomBottomNavigationBar
 
 class SeatBookingPage extends StatelessWidget {
@@ -324,11 +325,11 @@ class SeatBookingPage extends StatelessWidget {
   ) {
     return GestureDetector(
       onTap: () {
-        // Navigate to SeatBookingPage when tapped
+        // Navigate to BookingDetailsPage when tapped
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SeatBookingPage(travelCompany: title),
+            builder: (context) => BookingDetailsPage(),
           ),
         );
       },

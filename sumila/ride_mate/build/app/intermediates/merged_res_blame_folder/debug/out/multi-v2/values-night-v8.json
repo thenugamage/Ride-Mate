@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.ride_mate.app-mergeDebugResources-31:/values-night-v8/values-night-v8.xml",
+            "outputFile": "com.example.ride_mate.app-mergeDebugResources-5:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "D:\\Mobile App Development\\Ride-Mate\\sumila\\ride_mate\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "source": "C:\\Ride-Mate\\ride_mate\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
