@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.ride_mate.app-mergeDebugResources-5:/values-am/values-am.xml",
+            "outputFile": "com.example.ride_mate.app-mergeDebugResources-31:/values-am/values-am.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sumila thejan\\.gradle\\caches\\transforms-3\\2c4eccc171290d66831f2af2778b865d\\transformed\\core-1.13.1\\res\\values-am\\values-am.xml",
+                    "source": "C:\\Users\\thenu\\.gradle\\caches\\transforms-3\\2c4eccc171290d66831f2af2778b865d\\transformed\\core-1.13.1\\res\\values-am\\values-am.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\sumila thejan\\.gradle\\caches\\transforms-3\\6267f3282f53956d92e4a5de7936c44c\\transformed\\jetified-credentials-1.2.0-rc01\\res\\values-am\\values-am.xml",
+                    "source": "C:\\Users\\thenu\\.gradle\\caches\\transforms-3\\6267f3282f53956d92e4a5de7936c44c\\transformed\\jetified-credentials-1.2.0-rc01\\res\\values-am\\values-am.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -31,7 +31,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\sumila thejan\\.gradle\\caches\\transforms-3\\b6bddb1ad8fef8b456926850ef59c382\\transformed\\browser-1.4.0\\res\\values-am\\values-am.xml",
+                    "source": "C:\\Users\\thenu\\.gradle\\caches\\transforms-3\\b6bddb1ad8fef8b456926850ef59c382\\transformed\\browser-1.4.0\\res\\values-am\\values-am.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -48,7 +48,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\sumila thejan\\.gradle\\caches\\transforms-3\\5b366bf0f1058cf2a6adf3bd2e7f44d8\\transformed\\jetified-play-services-base-18.1.0\\res\\values-am\\values.xml",
+                    "source": "C:\\Users\\thenu\\.gradle\\caches\\transforms-3\\5b366bf0f1058cf2a6adf3bd2e7f44d8\\transformed\\jetified-play-services-base-18.1.0\\res\\values-am\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -65,7 +65,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\sumila thejan\\.gradle\\caches\\transforms-3\\33f63a5a0748e56d968b84aaa8b5e278\\transformed\\jetified-play-services-basement-18.4.0\\res\\values-am\\values.xml",
+                    "source": "C:\\Users\\thenu\\.gradle\\caches\\transforms-3\\33f63a5a0748e56d968b84aaa8b5e278\\transformed\\jetified-play-services-basement-18.4.0\\res\\values-am\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
