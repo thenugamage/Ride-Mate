@@ -1,2 +1,0 @@
-D:/Mobile App Development/Ride-Mate/sumila/ride_mate/android/app/.cxx/Debug/6c5w94v1/armeabi-v7a/CMakeFiles/edit_cache.dir
-D:/Mobile App Development/Ride-Mate/sumila/ride_mate/android/app/.cxx/Debug/6c5w94v1/armeabi-v7a/CMakeFiles/rebuild_cache.dir

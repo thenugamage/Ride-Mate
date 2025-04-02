@@ -96,7 +96,6 @@ class WelcomeScreen extends StatelessWidget {
 
                 const Spacer(),
 
-
                 /// Get Started Button (Navigates to Selection Page)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -118,7 +117,6 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         side: const BorderSide(
-
                           color: Color.fromARGB(255, 130, 119, 23),
                           width: 2,
                         ),
@@ -127,7 +125,6 @@ class WelcomeScreen extends StatelessWidget {
                         child: Text(
                           "Get Started",
                           style: TextStyle(
-
                             color: Colors.white,
                             fontSize: 16,
                           ),
@@ -145,6 +142,6 @@ class WelcomeScreen extends StatelessWidget {
       ),
     );
   }
-
 }
+
 

@@ -21,6 +21,8 @@ class MyApp extends StatelessWidget {
 }
 
 class AdminDashboard extends StatelessWidget {
+  const AdminDashboard({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,6 +133,8 @@ class AdminDashboard extends StatelessWidget {
 
 // Dummy Pages for Each Feature
 class DriverManagementPage extends StatelessWidget {
+  const DriverManagementPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,6 +148,8 @@ class DriverManagementPage extends StatelessWidget {
 }
 
 class BusRouteManagementPage extends StatelessWidget {
+  const BusRouteManagementPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,6 +165,8 @@ class BusRouteManagementPage extends StatelessWidget {
 }
 
 class BookingManagementPage extends StatelessWidget {
+  const BookingManagementPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -172,6 +180,8 @@ class BookingManagementPage extends StatelessWidget {
 }
 
 class TransactionMonitoringPage extends StatelessWidget {
+  const TransactionMonitoringPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -187,6 +197,8 @@ class TransactionMonitoringPage extends StatelessWidget {
 }
 
 class NotificationsManagementPage extends StatelessWidget {
+  const NotificationsManagementPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -202,6 +214,8 @@ class NotificationsManagementPage extends StatelessWidget {
 }
 
 class SeatAvailabilityPage extends StatelessWidget {
+  const SeatAvailabilityPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

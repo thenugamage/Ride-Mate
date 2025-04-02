@@ -21,6 +21,8 @@ class MyApp extends StatelessWidget {
 }
 
 class DriverManagementPage extends StatefulWidget {
+  const DriverManagementPage({super.key});
+
   @override
   _DriverManagementPageState createState() => _DriverManagementPageState();
 }
