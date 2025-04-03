@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ride_mate/Admin_panel/admin_acount_acess_control.dart';
 import 'signin.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 class SelectionScreen extends StatelessWidget {
   const SelectionScreen({super.key});
@@ -59,7 +59,7 @@ class SelectionScreen extends StatelessWidget {
                 /// Selection Title
                 Text(
                   "Selection",
-                  style: GoogleFonts.carterOne( 
+                  style: GoogleFonts.carterOne(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
@@ -69,7 +69,7 @@ class SelectionScreen extends StatelessWidget {
 
                 /// Bus Logo
                 Image.asset(
-                  'assets/Logo1.png', 
+                  'assets/Logo1.png',
                   height: 250,
                 ),
 
@@ -82,7 +82,34 @@ class SelectionScreen extends StatelessWidget {
                     children: [
                       _buildButton("Passenger", context),
                       const SizedBox(height: 45),
-                      _buildButton("Bus Owner", context),
+                      SizedBox(
+                        width: 250,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AdminDashboard()),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            side: const BorderSide(
+                              color: Color.fromARGB(255, 130, 119, 23),
+                              width: 2,
+                            ),
+                          ),
+                          child: Text(
+                            "Admin Panel",
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 16),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
