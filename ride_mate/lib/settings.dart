@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'home.dart';
+import 'profile.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -74,15 +75,23 @@ class _SettingsPageState extends State<SettingsPage> {
                           );
                         },
                       ),
-                      const SizedBox(width: 80),
-                      const Icon(Icons.settings, size: 28, color: Colors.black),
-                      const SizedBox(width: 8),
-                      Center(
-                        child: const Text(
-                          "Settings",
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      const Expanded(
+                        child: Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.settings, size: 28, color: Colors.black),
+                              SizedBox(width: 8),
+                              Text(
+                                "Settings",
+                                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                      // Add an invisible widget to balance the back button
+                      const SizedBox(width: 48),
                     ],
                   ),
                 ),
@@ -104,9 +113,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         CircleAvatar(
                           radius: 28,
                           backgroundImage: userPhoto != null
-                              ? NetworkImage(userPhoto!)
-                              : const AssetImage("assets/default_profile.png")
-                                  as ImageProvider,
+                              ? NetworkImage(userPhoto!) as ImageProvider
+                              : const AssetImage("assets/default_profile.png"),
                         ),
                         const SizedBox(width: 12),
                         Text(
@@ -128,7 +136,13 @@ class _SettingsPageState extends State<SettingsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _settingsCategory("Account Settings"),
-                        _settingsOption("Edit profile", Icons.arrow_forward_ios),
+                        _settingsOption("Edit profile", Icons.arrow_forward_ios,
+                            () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                          );
+                        }),
                         _settingsOption("Change password", Icons.arrow_forward_ios),
                         _settingsOption("Add a payment method", Icons.add),
                         _settingsOption("Offers"),
@@ -159,11 +173,25 @@ class _SettingsPageState extends State<SettingsPage> {
         currentIndex: 3,
         selectedItemColor: Colors.black,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.directions_bus), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.bookmark_border), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: ""),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.directions_bus), label: "Transport"),
+          BottomNavigationBarItem(icon: Icon(Icons.bookmark_border), label: "Bookmarks"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
         ],
+        onTap: (index) {
+          if (index != 3) {
+            // Navigate to other pages based on index
+            switch (index) {
+              case 0:
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+                );
+                break;
+              // Add cases for other navigation items
+            }
+          }
+        },
       ),
     );
   }
@@ -180,11 +208,11 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   /// Settings Option Item
-  Widget _settingsOption(String title, [IconData? icon]) {
+  Widget _settingsOption(String title, [IconData? icon, VoidCallback? onTap]) {
     return ListTile(
       title: Text(title),
       trailing: icon != null ? Icon(icon, size: 18, color: Colors.black) : null,
-      onTap: () {},
+      onTap: onTap,
     );
   }
 
@@ -197,6 +225,8 @@ class _SettingsPageState extends State<SettingsPage> {
         onChanged: (value) {
           setState(() {
             isDarkMode = value;
+            // Here you would implement theme changing logic
+            // For example, using a theme provider or shared preferences
           });
         },
       ),

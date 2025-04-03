@@ -187,7 +187,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (mounted) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const VerificationScreen()),
+          MaterialPageRoute(builder: (context) => const SignInScreen()),
         );
       }
     } on FirebaseAuthException catch (e) {
