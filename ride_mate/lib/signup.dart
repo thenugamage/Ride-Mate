@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'signin.dart';
-import 'verification.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -120,7 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const VerificationScreen()),
+          MaterialPageRoute(builder: (context) => const SignInScreen()),
         );
       }
     } on FirebaseAuthException catch (e) {
