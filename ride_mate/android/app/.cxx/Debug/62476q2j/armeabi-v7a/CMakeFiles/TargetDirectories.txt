@@ -1,0 +1,2 @@
+/Users/udaya2020/Documents/Ride-Mate/ride_mate/android/app/.cxx/Debug/62476q2j/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/udaya2020/Documents/Ride-Mate/ride_mate/android/app/.cxx/Debug/62476q2j/armeabi-v7a/CMakeFiles/rebuild_cache.dir
