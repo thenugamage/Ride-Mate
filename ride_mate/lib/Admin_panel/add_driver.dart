@@ -1,25 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Driver Management',
-      theme: ThemeData(
-        primarySwatch: Colors.yellow, // Setting theme color to yellow
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: DriverManagementPage(),
-    );
-  }
-}
-
 class DriverManagementPage extends StatefulWidget {
   const DriverManagementPage({super.key});
 
@@ -29,10 +9,28 @@ class DriverManagementPage extends StatefulWidget {
 
 class _DriverManagementPageState extends State<DriverManagementPage> {
   List<Map<String, String>> drivers = [
-    {"name": "John Doe", "license": "AB1234567"},
-    {"name": "Jane Smith", "license": "XY9876543"},
-    {"name": "Michael Johnson", "license": "LM1122334"},
+    {"name": "Kasun Perera", "license": "AB1234567"},
+    {"name": "Sajani Prathiba", "license": "XY9876543"},
+    {"name": "Kavya Samaraweera", "license": "LM1122334"},
   ];
+
+  TextEditingController searchController = TextEditingController();
+  List<Map<String, String>> filteredDrivers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    filteredDrivers = drivers;
+  }
+
+  void searchDrivers(String query) {
+    setState(() {
+      filteredDrivers = drivers.where((driver) {
+        return driver["name"]!.toLowerCase().contains(query.toLowerCase()) ||
+            driver["license"]!.toLowerCase().contains(query.toLowerCase());
+      }).toList();
+    });
+  }
 
   // Function to add a new driver
   void _addDriver() {
@@ -71,6 +69,8 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
                 } else {
                   setState(() {
                     drivers.add({"name": name, "license": license});
+                    filteredDrivers = List.from(drivers);
+                    searchDrivers(searchController.text);
                   });
                   Navigator.of(context).pop(); // Close dialog
                   _showDriverAddedConfirmation(name, license);
@@ -113,9 +113,38 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
 
   // Function to delete a driver
   void _deleteDriver(int index) {
-    setState(() {
-      drivers.removeAt(index);
-    });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'),
+          content: Text('Are you sure you want to delete this driver?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Cancel'),
+              style: TextButton.styleFrom(foregroundColor: Colors.grey),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  String name = drivers[index]["name"]!;
+                  drivers.removeAt(index);
+                  filteredDrivers = List.from(drivers);
+                  searchDrivers(searchController.text);
+                });
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Driver deleted successfully')),
+                );
+              },
+              child: Text('Delete'),
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   // Function to edit driver details
@@ -154,6 +183,8 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
                     "name": nameController.text.trim(),
                     "license": licenseController.text.trim(),
                   };
+                  filteredDrivers = List.from(drivers);
+                  searchDrivers(searchController.text);
                 });
                 Navigator.of(context).pop();
                 _showDriverUpdatedConfirmation(
@@ -202,65 +233,107 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
       appBar: AppBar(
         title: Text(
           'Driver Management',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+            fontSize: 20,
+          ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.yellow, // App bar color
+        backgroundColor: Colors.white,
+        elevation: 2,
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: Icon(Icons.add, color: Colors.black87),
             onPressed: _addDriver,
             tooltip: 'Add New Driver',
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Title/Subtitle for Driver Management
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Text(
-                'Manage and View All Drivers',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: searchController,
+              onChanged: searchDrivers,
+              decoration: InputDecoration(
+                hintText: 'Search drivers...',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                filled: true,
+                fillColor: Colors.grey[50],
               ),
             ),
-
-            // Driver List
-            Expanded(
-              child: ListView.builder(
-                itemCount: drivers.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.all(10),
-                      leading: Icon(Icons.directions_bus, color: Colors.yellow),
-                      title: Text(drivers[index]["name"]!),
-                      subtitle: Text("License: ${drivers[index]["license"]}"),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.edit, color: Colors.blue),
-                            onPressed: () => _editDriver(index),
-                            tooltip: 'Edit Driver',
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red),
-                            onPressed: () => _deleteDriver(index),
-                            tooltip: 'Delete Driver',
-                          ),
-                        ],
+          ),
+          Expanded(
+            child: filteredDrivers.isEmpty
+                ? Center(
+                    child: Text(
+                      'No drivers found',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 16,
                       ),
                     ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+                  )
+                : ListView.builder(
+                    itemCount: filteredDrivers.length,
+                    padding: EdgeInsets.all(16),
+                    itemBuilder: (context, index) {
+                      return Card(
+                        elevation: 2,
+                        margin: EdgeInsets.only(bottom: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.all(16),
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.grey[100],
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          title: Text(
+                            filteredDrivers[index]["name"]!,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
+                          ),
+                          subtitle: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              "License: ${filteredDrivers[index]["license"]}",
+                              style: TextStyle(color: Colors.grey[600]),
+                            ),
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.edit, color: Colors.blue[700]),
+                                onPressed: () => _editDriver(index),
+                                tooltip: 'Edit Driver',
+                              ),
+                              IconButton(
+                                icon:
+                                    Icon(Icons.delete, color: Colors.red[700]),
+                                onPressed: () => _deleteDriver(index),
+                                tooltip: 'Delete Driver',
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+          ),
+        ],
       ),
     );
   }
