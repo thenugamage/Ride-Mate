@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'package:ride_mate/providers/booking_provider.dart';
+import 'package:ride_mate/providers/navigation_provider.dart';
+import 'package:ride_mate/providers/user_provider.dart';
 import 'selection.dart';
+import 'package:ride_mate/const.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 void main() async {
+  await _setup();
+  runApp(const MyApp());
+}
+
+Future<void> _setup() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  Stripe.publishableKey = publishableKey;
 }
 
 class MyApp extends StatelessWidget {
@@ -13,9 +24,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const WelcomeScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => NavigationProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => BookingsProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: const WelcomeScreen(),
+      ),
     );
   }
 }
@@ -143,5 +161,3 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 }
-
-
