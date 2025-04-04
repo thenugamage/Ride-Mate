@@ -122,8 +122,8 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('Cancel'),
               style: TextButton.styleFrom(foregroundColor: Colors.grey),
+              child: Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
@@ -138,8 +138,8 @@ class _DriverManagementPageState extends State<DriverManagementPage> {
                   SnackBar(content: Text('Driver deleted successfully')),
                 );
               },
-              child: Text('Delete'),
               style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: Text('Delete'),
             ),
           ],
         );
