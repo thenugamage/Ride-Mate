@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ride_mate/Admin_panel/add_driver.dart';
 import 'package:ride_mate/Admin_panel/admin_profile.dart';
-import 'package:ride_mate/Admin_panel/bookings_summery.dart';
-import 'package:ride_mate/Admin_panel/bus_management.dart';
+import 'package:ride_mate/Admin_panel/booking_summery.dart';
 import 'package:ride_mate/Admin_panel/transition_monitor.dart';
+import 'package:ride_mate/Admin_panel/bus_management.dart';
 
 class AdminDashboard extends StatelessWidget {
   const AdminDashboard({super.key});
