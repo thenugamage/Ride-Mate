@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'navigationbar.dart';
+import 'package:provider/provider.dart';
+import 'package:ride_mate/all_bus_details.dart';
+import 'package:ride_mate/models/bus_model.dart';
+import 'package:ride_mate/providers/user_provider.dart';
+import 'package:ride_mate/seatbooking.dart';
+import 'package:ride_mate/widgets/bus_card.dart';
+import 'package:ride_mate/data/bus_data.dart';
 import 'settings.dart';
-import 'booking.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -31,6 +36,9 @@ class _HomePageState extends State<HomePage> {
     "9:00 PM"
   ];
 
+  List<Bus>? filteredBuses; // Changed to nullable type
+  bool hasSearched = false; // Added search tracking
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +52,7 @@ class _HomePageState extends State<HomePage> {
         userName = user.displayName ?? "User";
         userPhoto = user.photoURL;
       });
+      context.read<UserProvider>().setUserName(userName);
     }
   }
 
@@ -56,7 +65,7 @@ class _HomePageState extends State<HomePage> {
         nextScreen = const HomePage();
         break;
       case 1:
-        nextScreen = const HomePage();
+        nextScreen = const AllBusDetailsScreen();
         break;
       case 2:
         nextScreen = const HomePage();
@@ -104,23 +113,53 @@ class _HomePageState extends State<HomePage> {
       'time': _selectedTime,
     };
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => BookingPage(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          ticket: ticket,
-        ),
-      ),
-    );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => BookingPage(
+    //       currentIndex: _selectedIndex,
+    //       onTap: _onItemTapped,
+    //       ticket: ticket,
+    //     ),
+    //   ),
+    // );
+  }
+
+  bool _validateInputs() {
+    // Remove validation requirements to allow partial searches
+    return true; // Always return true to allow searching with partial inputs
+  }
+
+  void _searchBuses() {
+    setState(() {
+      hasSearched = true;
+      filteredBuses = sampleBusData.where((bus) {
+        bool matchesOrigin = true;
+        bool matchesDestination = true;
+
+        // Only check origin if user entered something
+        if (_boardingController.text.isNotEmpty) {
+          matchesOrigin = bus.origin
+              .toLowerCase()
+              .contains(_boardingController.text.toLowerCase());
+        }
+
+        // Only check destination if user entered something
+        if (_destinationController.text.isNotEmpty) {
+          matchesDestination = bus.destination
+              .toLowerCase()
+              .contains(_destinationController.text.toLowerCase());
+        }
+
+        return matchesOrigin && matchesDestination;
+      }).toList();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: Stack(
         children: [
           /// Gradient background
@@ -152,18 +191,17 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  /// Top Navigation and Profile
+
                   /// Profile Info
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       children: [
                         CircleAvatar(
-                          radius: 24,
-                          backgroundImage: userPhoto != null
-                              ? NetworkImage(userPhoto!)
-                              : const AssetImage("assets/Avatar.png")
-                                  as ImageProvider,
-                        ),
+                            radius: 24,
+                            backgroundImage: NetworkImage(
+                                "https://randomuser.me/api/portraits/men/32.jpg")),
                         const SizedBox(width: 12),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,6 +230,11 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const Text(
+                          "Pickup & Destination",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
                         Row(
                           children: [
                             Expanded(
@@ -216,33 +259,28 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                         const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  _selectedDate = DateTime.now();
-                                  _selectedDateLabel = "Today";
-                                });
-                              },
-                              child: const Text('Today'),
+                        const Text(
+                          "Departure Date",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        InkWell(
+                          onTap: _pickDate,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 15),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  _selectedDate = DateTime.now()
-                                      .add(const Duration(days: 1));
-                                  _selectedDateLabel = "Tomorrow";
-                                });
-                              },
-                              child: const Text('Tomorrow'),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(_selectedDateLabel),
+                                const Icon(Icons.calendar_today),
+                              ],
                             ),
-                            ElevatedButton(
-                              onPressed: _pickDate,
-                              child: const Text('Other'),
-                            ),
-                          ],
+                          ),
                         ),
                         const SizedBox(height: 16),
                         const Text(
@@ -278,12 +316,98 @@ class _HomePageState extends State<HomePage> {
                         ),
                         const SizedBox(height: 20),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: _searchBuses,
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 50),
                           ),
                           child: const Text('Find Buses'),
                         ),
+                        const SizedBox(height: 32),
+                        const Text(
+                          "Available Buses",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        if (!hasSearched)
+                          Center(
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 20),
+                                const Icon(
+                                  Icons.search,
+                                  size: 48,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  'Search for available buses',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        else if (filteredBuses!.isEmpty)
+                          Center(
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 20),
+                                const Icon(
+                                  Icons.directions_bus_outlined,
+                                  size: 48,
+                                  color: Colors.grey,
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  'No buses found for your search criteria',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Try different date, time or location',
+                                  style: TextStyle(
+                                    color: Colors.grey[500],
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        else
+                          Column(
+                            children: filteredBuses!.map((bus) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (ctx) => SeatBookingPage(
+                                        travelCompany: "Kasun Travels",
+                                        origin: bus.origin,
+                                        destination: bus.destination,
+                                        dateTime: bus.date,
+                                        bus: bus,
+                                      ),
+                                    ),
+                                  );
+                                  print('Tapped on bus ID: ${bus.id}');
+                                },
+                                child: BusCard(
+                                  index: bus.id,
+                                  boardingLocation: bus.origin,
+                                  destination: bus.destination,
+                                  departureTime:
+                                      '${bus.departureTime.hour}:${bus.departureTime.minute.toString().padLeft(2, '0')}',
+                                  departureDate:
+                                      '${bus.date.year}-${bus.date.month}-${bus.date.day}',
+                                ),
+                              );
+                            }).toList(),
+                          ),
                       ],
                     ),
                   ),
@@ -292,12 +416,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
-      ),
-
-      /// Bottom Nav
-      bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
       ),
     );
   }

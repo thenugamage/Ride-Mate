@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ride_mate/models/bus_model.dart';
+import 'package:ride_mate/providers/user_provider.dart';
 import 'navigationbar.dart';
-import 'seatbooking.dart';
 
 class BookingPage extends StatelessWidget {
+  const BookingPage(
+      {super.key,
+      required this.currentIndex,
+      required this.onTap,
+      required this.ticket,
+      required this.travelCompany,
+      required this.origin,
+      required this.destination,
+      required this.dateTime,
+      required this.bus,
+      required this.selectedSeats});
   final int currentIndex;
   final Function(int) onTap;
   final Map<String, dynamic> ticket;
-
-  const BookingPage({
-    super.key,
-    required this.currentIndex,
-    required this.onTap,
-    required this.ticket,
-  });
+  final String travelCompany;
+  final String origin;
+  final String destination;
+  final DateTime dateTime;
+  final Bus bus;
+  final Set<int> selectedSeats;
 
   @override
   Widget build(BuildContext context) {
@@ -55,14 +67,15 @@ class BookingPage extends StatelessWidget {
                 Row(
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage('assets/Avatar.png'),
-                    ),
+                        radius: 24,
+                        backgroundImage: NetworkImage(
+                            "https://randomuser.me/api/portraits/men/32.jpg")),
                     SizedBox(width: 8),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Hello Saduni Silva!",
+                          context.read<UserProvider>().userName,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -212,12 +225,12 @@ class BookingPage extends StatelessWidget {
   ) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SeatBookingPage(travelCompany: title),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => SeatBookingPage(travelCompany: title),
+        //   ),
+        // );
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8),

@@ -1,15 +1,38 @@
 import 'package:flutter/material.dart';
-import 'navigationbar.dart'; // Import the CustomBottomNavigationBar
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:ride_mate/models/bus_model.dart';
+import 'package:ride_mate/providers/user_provider.dart';
+// Import the CustomBottomNavigationBar
 import 'guestdetails.dart'; // Import the GuestDetailsPage
 
-class BookingDetailsPage extends StatelessWidget {
-  const BookingDetailsPage({super.key});
+class BookingDetailsPage extends StatefulWidget {
+  const BookingDetailsPage(
+      {super.key,
+      required this.travelCompany,
+      required this.origin,
+      required this.destination,
+      required this.dateTime,
+      required this.bus,
+      required this.selectedSeats});
+
+  final String travelCompany;
+  final String origin;
+  final String destination;
+  final DateTime dateTime;
+  final Bus bus;
+  final Set<int> selectedSeats;
 
   @override
+  State<BookingDetailsPage> createState() => _BookingDetailsPageState();
+}
+
+class _BookingDetailsPageState extends State<BookingDetailsPage> {
+  @override
   Widget build(BuildContext context) {
+    final totalPrice = widget.selectedSeats.length * 200;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
@@ -58,14 +81,15 @@ class BookingDetailsPage extends StatelessWidget {
                     Row(
                       children: [
                         CircleAvatar(
-                          backgroundImage: AssetImage('assets/Avatar.png'),
-                        ),
+                            radius: 24,
+                            backgroundImage: NetworkImage(
+                                "https://randomuser.me/api/portraits/men/32.jpg")),
                         SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Hello Saduni Silva!",
+                              context.read<UserProvider>().userName,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -117,7 +141,7 @@ class BookingDetailsPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Kelaniya",
+                            widget.origin,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -139,7 +163,7 @@ class BookingDetailsPage extends StatelessWidget {
                           ),
                           SizedBox(width: 10),
                           Text(
-                            "Colombo",
+                            widget.destination,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -159,7 +183,7 @@ class BookingDetailsPage extends StatelessWidget {
                           border: Border.all(color: Colors.white, width: 1),
                         ),
                         child: Text(
-                          "08th - Dec - 2024 | Sunday",
+                          "${DateFormat('yyyy-MM-dd').format(widget.dateTime)} | ${DateFormat('EEEE').format(widget.dateTime)} | ${DateFormat('hh:mm a').format(widget.dateTime)}",
                           style: TextStyle(color: Colors.white, fontSize: 14),
                         ),
                       ),
@@ -170,7 +194,7 @@ class BookingDetailsPage extends StatelessWidget {
                         context,
                         "Perera Travels",
                         "A/C Sleeper (2+2)",
-                        "9:00 AM - 9:45 AM",
+                        DateFormat('hh:mm a').format(widget.dateTime),
                         "15 Seats left",
                         Colors.green,
                         "LKR 200",
@@ -197,53 +221,90 @@ class BookingDetailsPage extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      // Select Boarding Point Dropdown
-                      DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          labelText: 'Select Boarding Point',
-                          border: OutlineInputBorder(),
+                      // Origin and Destination Display
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        items: <String>['Kelaniya', 'Colombo', 'Gampaha']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (value) {},
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                'Boarding Point:',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              widget.origin,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 10),
-
-                      // Select Drop Point Dropdown
-                      DropdownButtonFormField<String>(
-                        decoration: InputDecoration(
-                          labelText: 'Select Drop Point',
-                          border: OutlineInputBorder(),
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        items: <String>['Colombo', 'Kandy', 'Galle']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (value) {},
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                'Drop Point:',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              widget.destination,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 10),
 
                       // Selected Seats and Total Fare
-                      Row(
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Selected Seats: 17, 18',
+                            'Seat count: ${widget.selectedSeats.length}',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            'Total Fare: LKR 400',
+                            'Selected Seats: ${widget.selectedSeats.toList().join(", ")}',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'Total Fare: LKR $totalPrice',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -260,7 +321,15 @@ class BookingDetailsPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => GuestDetailsPage(),
+                              builder: (context) => GuestDetailsPage(
+                                bus: widget.bus,
+                                dateTime: widget.dateTime,
+                                destination: widget.destination,
+                                origin: widget.origin,
+                                selectedSeats: widget.selectedSeats,
+                                travelCompany: widget.travelCompany,
+                                price: totalPrice,
+                              ),
                             ),
                           );
                         },
@@ -272,7 +341,12 @@ class BookingDetailsPage extends StatelessWidget {
                           ),
                           backgroundColor: Colors.orange, // Use backgroundColor
                         ),
-                        child: Text("Proceed to Book"),
+                        child: Text("Proceed to Book",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            )),
                       ),
                     ],
                   ),
@@ -281,12 +355,6 @@ class BookingDetailsPage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: 0, // Add your current index here
-        onTap: (index) {
-          // Handle the navigation logic if needed here
-        },
       ),
     );
   }
@@ -305,12 +373,12 @@ class BookingDetailsPage extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // Navigate to BookingDetailsPage when tapped
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BookingDetailsPage(),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => BookingDetailsPage(),
+        //   ),
+        // );
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8),

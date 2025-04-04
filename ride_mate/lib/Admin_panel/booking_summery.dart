@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:ride_mate/providers/bookings_provider.dart';
+import 'package:ride_mate/providers/booking_provider.dart';
 import 'package:ride_mate/models/booking_model.dart';
 import 'package:intl/intl.dart';
 
